@@ -232,15 +232,23 @@ static void process_sync_args(
 void pull_cmd(void){
   unsigned configFlags = 0;
   unsigned syncFlags = SYNC_PULL;
+  int nErr = 0;
   if( find_option("from-parent-project",0,0)!=0 ){
     syncFlags |= SYNC_FROMPARENT;
   }
   process_sync_args(&configFlags, &syncFlags, 0);
+  if( db_get_boolean("aux-clone-incomplete", 0) ){
+    syncFlags |= SYNC_RESYNC;
+    configFlags |= CONFIGSET_ALL;
+  }
 
   /* We should be done with options.. */
   verify_all_options();
 
-  client_sync(syncFlags, configFlags, 0);
+  nErr = client_sync(syncFlags, configFlags, 0);
+  if( db_get_boolean("aux-clone-incomplete", 0) && nErr==0 ){
+    db_set("aux-clone-incomplete", "0", 0);
+  }
 }
 
 /*
@@ -323,18 +331,27 @@ void push_cmd(void){
 void sync_cmd(void){
   unsigned configFlags = 0;
   unsigned syncFlags = SYNC_PUSH|SYNC_PULL;
+  int nErr = 0;
   if( find_option("unversioned","u",0)!=0 ){
     syncFlags |= SYNC_UNVERSIONED;
   }
   process_sync_args(&configFlags, &syncFlags, 0);
+  if( db_get_boolean("aux-clone-incomplete", 0) ){
+    syncFlags |= SYNC_RESYNC;
+    configFlags |= CONFIGSET_ALL;
+  }
 
   /* We should be done with options.. */
   verify_all_options();
 
   if( db_get_boolean("dont-push",0) ) syncFlags &= ~SYNC_PUSH;
-  client_sync(syncFlags, configFlags, 0);
+  nErr = client_sync(syncFlags, configFlags, 0);
   if( (syncFlags & SYNC_PUSH)==0 ){
     fossil_warning("pull only: the 'dont-push' option is set");
+  }
+  if( (syncFlags & SYNC_PULL)==0 &&
+      db_get_boolean("aux-clone-incomplete", 0) && nErr==0 ){
+    db_set("aux-clone-incomplete", "0", 0);
   }
 }
 

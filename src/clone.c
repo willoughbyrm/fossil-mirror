@@ -185,6 +185,7 @@ void clone_cmd(void){
     user_select();
     db_set("content-schema", CONTENT_SCHEMA, 0);
     db_set("aux-schema", AUX_SCHEMA_MAX, 0);
+    db_set("aux-clone-incomplete", "1", 0);
     db_set("rebuilt", get_version(), 0);
     db_unset("hash-policy", 0);
     remember_or_get_http_auth(zHttpAuth, urlFlags & URL_REMEMBER, g.argv[2]);
@@ -209,12 +210,13 @@ void clone_cmd(void){
     nErr = client_sync(syncFlags,CONFIGSET_ALL,0);
     g.xlinkClusterOnly = 0;
     verify_cancel();
+    if( nErr ){
+      fossil_warning("server returned an error - clone incomplete");
+    }else{
+      db_set("aux-clone-finished", "0", 0);
+    }
     db_end_transaction(0);
     db_close(1);
-    if( nErr ){
-      file_delete(g.argv[3]);
-      fossil_fatal("server returned an error - clone aborted");
-    }
     db_open_repository(g.argv[3]);
   }
   db_begin_transaction();
@@ -236,6 +238,10 @@ void clone_cmd(void){
   fossil_print("server-id:  %s\n", db_get("server-code", 0));
   zPassword = db_text(0, "SELECT pw FROM user WHERE login=%Q", g.zLogin);
   fossil_print("admin-user: %s (password is \"%s\")\n", g.zLogin, zPassword);
+  if( nErr ){
+    fossil_warning("clone operation had errors. "
+                   "Run \"fossil pull\" to complete clone.");
+  }
 }
 
 /*

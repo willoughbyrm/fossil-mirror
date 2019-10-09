@@ -1,8 +1,5 @@
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
-
-C Increase\sthe\sversion\snumber\sto\s2.11\sfor\sthe\snext\srelease\scycle.
-D 2019-10-08T16:00:16.077
+C Attempt\sto\s\sresume\sa\s\sclone\sduring\s\sthe\snext\ssync\sor\spull\sby\stracking\s\sa\sfailed\nclone\soperation.
+D 2019-10-09T14:52:29.367
 F .dockerignore 29c5476ae4fb609219ea3f11d60c4b133a037b68
 F .editorconfig 858e35d8c2d55ef6a89bce4c0077a76ac5cd94c6fad3cd238969cb9c2db9675a
 F .fossil-settings/binary-glob 34cc11b3b509fd5064afe327e70765799f314c9a
@@ -452,7 +449,7 @@ F src/checkin.c abd09d106b51e50b0533e7807afe47edcc84f9975dd3b277ec307de256bed188
 F src/checkout.c 67682b15a85b94e6377a607629d871a791f148e0568e1cc484b687880e5d0232
 F src/ci_edit.js 9316a271fc9608fa1f232617181e97ea8a03edb23749fdd98f8f1845c41596e7
 F src/clearsign.c 3b01d6eb2260a699248a031bb89a2fb69e6f9f3bc34f09f45439e380cab3530a
-F src/clone.c 4f3742a1851108b9c2de6513fc8b4a79bd1555f6e954eb8935829ae0126e1945
+F src/clone.c 82fc624e7f8d68813f8416ed9d7e7c44099ee5053f161c18b90dfbd0afd24862
 F src/codecheck1.c f74b41cba160225de4e676454d9a8fceabe730d5b3aa3c4a7465f602d0e6910d
 F src/comformat.c e9fe5da3fabb21398774c195f20192962b0856fc1f367ccac680b5cfef0f18e7
 F src/config.h d9a16a4931ebf2dfd6ac29cca9d89689f7fbcd858fd37ebbe8fe52851c9db934
@@ -580,7 +577,7 @@ F src/stash.c c541e3bb52e4d24e74bd49d86996ac2b8590513a6959d22855c01cd44f647468
 F src/stat.c a87b40c8b97d0bd5459710f5befe9bd2723b0dc52ddcce722180b63d22dfb3f8
 F src/statrep.c 53e445c1353057aece0a3eaee7c8f65b15755accb8e8eac74256d7cbc5411fae
 F src/style.c e654ff9b9b80ca5ce23ad5e5b5b7aa060539a0532111f1b49746d8a0da34d656
-F src/sync.c c450606f9ae4cb95761e64c70f338ced701b7ec8fb37a36f051649591da6e005
+F src/sync.c 54a2a4ecf556c93222eed5861f1629e5795f07b3458ee36bb076a6cc153e23b0
 F src/tag.c f1a049a1162e7b91748c65d2feb72cc1c415d11aa0882fd4bb7fa4756d5d3e4b
 F src/tar.c ded518e27f8191f8a9c92172cbc813e229aee1573d6c008c9d6001a9feddf7b8
 F src/th.c 225f4cc536e2e863038141e04e085540711abb706c85e4dde3d1e3b20792db30
@@ -933,14 +930,10 @@ F www/webui.wiki 5b434406349aa3c2553513ceab666633747c0a6de6432573a3bc0507c210b94
 F www/whyusefossil.wiki 730056ead695df82c7aa9dd099cf34b4bfbfd473
 F www/wikitheory.wiki d11fd8dfa727887d941fe998fd48030c60276b81c1d460e656ac5acb5e87af99
 F www/xkcd-git.gif 1f9bc44ed41cad3f5ac18f21e3463e3390b53b29
-P cb13b611005b9f0a3be031c934a0cea7fc684f575a831f523e9196777b854162
-R 7205a7f457e630a6a1a7b12028ca5309
-U drh
-Z 9c7dd2ea369e5d4d230184fcf458a277
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl2cspAACgkQoxKgR168RlHfDwCgiALeTj2g5QQcvXjHDkmTYY+F
-FcgAn34JpwY2k279Mi5Wq3/wPNd5pfPI
-=4sea
------END PGP SIGNATURE-----
+P 10fb90fcae08a311009ec2cee0fa06fd0625d85f83fb75a536d8795eed57d6d6
+R 9baa13aca91d51cd557d9e0e2bf39417
+T *branch * clone-resume
+T *sym-clone-resume *
+T -sym-trunk *
+U andybradford
+Z c3e261b06f294fd459b033f980bcc753
