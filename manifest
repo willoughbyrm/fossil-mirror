@@ -1,5 +1,5 @@
-C Attempt\sto\s\sresume\sa\s\sclone\sduring\s\sthe\snext\ssync\sor\spull\sby\stracking\s\sa\sfailed\nclone\soperation.
-D 2019-10-09T14:52:29.367
+C Merge\sin\slatest\sfrom\smain\sline.
+D 2019-10-24T14:30:41.350
 F .dockerignore 29c5476ae4fb609219ea3f11d60c4b133a037b68
 F .editorconfig 858e35d8c2d55ef6a89bce4c0077a76ac5cd94c6fad3cd238969cb9c2db9675a
 F .fossil-settings/binary-glob 34cc11b3b509fd5064afe327e70765799f314c9a
@@ -495,7 +495,7 @@ F src/http_socket.c 55293f904f6abf407b00cf636eca5800bf8048c5a09a668121aa95f5833d
 F src/http_ssl.c e0eeef129c25f3316f511c13855c39e8e6dc16549d7a0f6665b6b530d3371034
 F src/http_transport.c 42bbcbe69494e4e3398b00702b92242c39cd7a5538175e9ff60bd3fd63b6163b
 F src/import.c 4689601689be55d05e83756fcdc886ad3958a15b4de5678cb250db176cb4cee0
-F src/info.c c3eb9376021aa9523b7dd0c08ee6d94d0a2ccf62ca17e3a4ded2dc53032a47e1
+F src/info.c 6e0eebada4eadcd20a8aa29c4093a125ac18fdbd58ce73047ed3ad9d123a6ee2
 F src/json.c 356dc00fca5481569a58c65a23f85b880edc11e363526226de62da844afe74e9
 F src/json_artifact.c 6530c919e6671cbec7f72e6240c361229e21d8f4
 F src/json_branch.c f41e9f37e4ab0654cb395811acd6edf1c6464085ea3f3eb27fca417e0ae90a69
@@ -530,7 +530,7 @@ F src/markdown.md 36b19ca92f330323e2edb7b2e80dd96d708753951da73b725b025a10cadf48
 F src/markdown_html.c ea65869f88656de85a63140fc6e27e38c378cc8f911bb0c8dae4a68a6123bed7
 F src/md5.c a18f2868a3b8932c4fbf8c2659931e14cdee1858
 F src/menu.js 8a3650ced67d6c31241eaae42efc5796fe7bcbbd581adf5a284ea1dbf2415e23
-F src/merge.c 469e165c996c146afa6b0e5a873e67f251fc84f4ba73d9af7a73fe1497cadbfb
+F src/merge.c 6279e042ec7f95ef37b4a6b9895a88f7c98f4f3bbe56bd6418e28c507753f35c
 F src/merge3.c 3ed67f9d2a6e9a0b75f0eb319c0331b18b1879a8361c0f38d49dd17a930fbc9e
 F src/miniz.c 80b95f7cb727d12dd23dabafd40a3513a7301c9b88d6ef011af85bb9bf2c49e7
 F src/mkbuiltin.c 9be20ec713e4a8422c1228f1f40c40b321a3a1411929e6a07c43d104a2e30883
@@ -838,7 +838,7 @@ F www/fiveminutes.wiki 6ac13b03eaa2f0d0d4a88cb7415b33dd61b42e2ba1b5e106bdc56c644
 F www/forum.wiki 26553b27da188755ad38f072a788d67c7127d8191411a5ef79eb197baad837df
 F www/foss-cklist.wiki bb6dbd96ca6953843b5a68b86e896fa08a4e1122
 F www/fossil-from-msvc.wiki f73f0667b1f268e61e276007ad000c4205e740ba
-F www/fossil-v-git.wiki f81bed322f9a659493ae8cb297dc0c0552f2997b5993813d8664e9995666e9be
+F www/fossil-v-git.wiki 2356aac341f29010f056e25e565041f272db055e1a19a4445633d915d8b79818
 F www/fossil.eps dd303bdc475ef1aa3b1cfca07b5ed70397370394
 F www/fossil.gif 590c4da59ebd76b65da0c9ba610d661f1bcb0146
 F www/fossil2.eps fb372ab5154d581923bf0f4044644af259991872
@@ -883,7 +883,7 @@ F www/rebase04.graphml 9b1d5de1e8275bfad9a913b42368fca75c55a4562d4465b1228766d0f
 F www/rebase04.svg 854a2068b9e6b0e6030707e2e463f72caa414efed652c1468d883a30b0a9ce7d
 F www/rebase05.graphml 92f4ad1ffc94f1b82ade20a3cef8d58e6f34ff5e121b64a9a1a12d66181a9bdb
 F www/rebase05.svg b2b6e6ad4c7bcd1c39a08b4f72106dfcb6d7ae4eb21aa15732ed3c2320067672
-F www/rebaseharm.md c8576839e3fa34c236b0d096e279cf54277dcd7a9379375345babda4b4519e9e
+F www/rebaseharm.md f84f21b6e012110916bafe46be0a0805b98adccab9115f2c199b3d04dea9f4e3
 F www/reviews.wiki b5733a2b7f6aa8495493b4b43eafe98b388e6acb
 F www/scgi.wiki 227d2749e84d696d3f5266888196dfe4c4451098
 F www/selfcheck.wiki 02e46328cb1a6308a1e07a502456acf4e508d264f11942b1427bc5427a2a57eb
@@ -906,10 +906,10 @@ F www/server/windows/cgi-install-iis.png c713f470dcc58ceb3b634e56944a08a691db097
 F www/server/windows/cgi-script-map.png a1e6567130bb82b7a9240eff90a83c261edc01332e940072a3e1cd23c70148de
 F www/server/windows/cgi.md 89c7bf1611509648df2362acfbcdd5bf275dda2fe8a1d64b3eed7ee450a2f3db
 F www/server/windows/iis.md fb8614ab24ddc1e538cbc3f230379e367bfdde58fe4b11d200115e971d26f04d
-F www/server/windows/index.md 9a7c9a223f29e3880166e63b188d4d0510402b9c27a7635d2bb47e030f48910c
+F www/server/windows/index.md 835238f5504ae926b561be6879536a98ed5dd92255adfd1ae3090199a5050f5e
 F www/server/windows/none.md 06e557bd46a6f83b88b664ac1c14610b9dbeec44234acbe6493f22e3015fe3f4
-F www/server/windows/service.md 3a912973d1763a5cbe812180c6fc24673604b9595eb615cb05b3c97cc34556e9
-F www/server/windows/stunnel.md 8f3e566d3670c9b5264f0f119e9a87e46c01537f88edaaf04435e00e87bd7854
+F www/server/windows/service.md fc8895623c5b168d0218df760979ee09126b0d514347ab30035fc131efc9899a
+F www/server/windows/stunnel.md 88db251fff565756dd0e7fa9192cc4d7296cbbfc4d2d460a7b74a87765ba9083
 F www/serverext.wiki 2fe5dd76ffd7fdb05bff1c031fd0147fb5c73aba8bc5548cf32f57195a6e6319
 F www/settings.wiki c53581bd6cd8769ddbacc24ce41cea06a4267e1a
 F www/shunning.wiki 3a5f12c52e959b6f3efbc4c7dcbd84b2692fd83e766bbb8eee23b0e17259ef8a
@@ -930,10 +930,7 @@ F www/webui.wiki 5b434406349aa3c2553513ceab666633747c0a6de6432573a3bc0507c210b94
 F www/whyusefossil.wiki 730056ead695df82c7aa9dd099cf34b4bfbfd473
 F www/wikitheory.wiki d11fd8dfa727887d941fe998fd48030c60276b81c1d460e656ac5acb5e87af99
 F www/xkcd-git.gif 1f9bc44ed41cad3f5ac18f21e3463e3390b53b29
-P 10fb90fcae08a311009ec2cee0fa06fd0625d85f83fb75a536d8795eed57d6d6
-R 9baa13aca91d51cd557d9e0e2bf39417
-T *branch * clone-resume
-T *sym-clone-resume *
-T -sym-trunk *
+P ec26471439ec529446d9f125a7a0761fa3cdcb971baed11fde546ab13b0af88e a92d5a514d7ffd5e3b2b8f04d486cf543c414b8456b4e82bc3f12394e7a018e1
+R 0753a1310fa70dbca21094be9d96b3ac
 U andybradford
-Z c3e261b06f294fd459b033f980bcc753
+Z eca692154353d196b3da60cc351e6130

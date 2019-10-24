@@ -76,6 +76,27 @@ add-ons, but with Fossil they are integrated into
 the design.  One way to describe Fossil is that it is
 "[https://github.com/ | GitHub]-in-a-box."
 
+Fossil can do operations over all local repo clones and check-out
+directories with a single command. For example, Fossil lets you say
+<tt>fossil all pull</tt> on a laptop prior to taking it off the network
+hosting those repos. You can sync up to all of the private repos on your
+company network plus those public Internet-hosted repos you use. Whether
+going out for a working lunch or on a transoceanic an airplane trip, one
+command gets you in sync. This works with several other Fossil
+sub-commands, such as <tt>fossil all changes</tt> to get a list of files
+that you forgot to commit prior to the end of your working day, across
+all repos.
+
+Whenever Fossil is told to modify the local checkout in some destructive
+way ([/help?cmd=rm|fossil rm], [/help?cmd=update|fossil update],
+[/help?cmd=revert|fossil revert], etc.) Fossil remembers the prior state
+and is able to return the check-out directory to that state with a
+<tt>fossil undo</tt> command. You cannot undo a commit in Fossil
+([#history | on purpose!]) but as long as the change remains confined to
+the local check-out directory only, Fossil makes undo
+[https://git-scm.com/book/en/v2/Git-Basics-Undoing-Things|easier than in
+Git].
+
 For developers who choose to self-host projects (rather than using a
 3rd-party service such as GitHub) Fossil is much easier to set up, since
 the stand-alone Fossil executable together with a [./server/any/cgi.md|2-line CGI script]
@@ -235,13 +256,14 @@ of SQL code in Fossil isn't large by percentage, but since SQL is such
 an expressive, declarative language, it has an outsized contribution to
 Fossil's user-visible functionality.
 
-Fossil isn't entirely C and SQL code. Its web UI uses JavaScript where
-necessary.⁵ The server-side
+Fossil isn't entirely C and SQL code. Its web UI [./javascript.md |
+uses JavaScript where
+necessary]. The server-side
 UI scripting uses a custom minimal
 [https://en.wikipedia.org/wiki/Tcl|Tcl] dialect called
 [https://www.fossil-scm.org/xfer/doc/trunk/www/th1.md|TH1], which is
 embedded into Fossil itself. Fossil's build system and test suite are
-largely based on Tcl.⁶ All of this is quite portable.
+largely based on Tcl.⁵ All of this is quite portable.
 
 About half of Git's code is POSIX C, and about a third is POSIX shell
 code. This is largely why the so-called "Git for Windows" distributions
@@ -250,7 +272,7 @@ code. This is largely why the so-called "Git for Windows" distributions
 [http://mingw.org/wiki/msys|MSYS POSIX portability environment] bundled
 with all of the Git stuff, because it would be too painful to port Git
 natively to Windows. Git is a foreign citizen on Windows, speaking to it
-only through a translator.⁷
+only through a translator.⁶
 
 While Fossil does lean toward POSIX norms when given a choice — LF-only
 line endings are treated as first-class citizens over CR+LF, for example
@@ -341,7 +363,7 @@ development model:
     [https://www.jonobacon.com/2012/07/25/building-strong-community-structural-integrity/|drive-by
     contributions]. Fossil's closest equivalent is its unique
     [/help?cmd=bundle|bundle] feature, which requires higher engagement
-    than firing off a PR.⁸ This difference comes directly from the
+    than firing off a PR.⁷ This difference comes directly from the
     initial designed purpose for each tool: the SQLite project doesn't
     accept outside contributions from previously-unknown developers, but
     the Linux kernel does.</p></li>
@@ -517,8 +539,8 @@ Both Fossil and Git store history as a directed acyclic graph (DAG)
 of changes, but Git tends to focus more on individual branches of
 the DAG, whereas Fossil puts more emphasis on the entire DAG.
 
-For example, the default "sync" behavior in Git is to only sync
-a single branch, whereas with Fossil the only sync option it to
+For example, the default behavior in Git is to only synchronize
+a single branch, whereas with Fossil the only sync option is to
 sync the entire DAG.  Git commands,
 GitHub, and GitLab tend to show only a single branch at
 a time, whereas Fossil usually shows all parallel branches at
@@ -711,7 +733,7 @@ currently 41 lines long, to which you want to add the 600 lines of
 documentation in Git is the aggregation of the man pages for the above
 three commands, which is over 1000 lines, much of it mutually redundant.
 (e.g.  the <tt>--edit</tt> and <tt>--no-commit</tt> options get
-described three different times, each time differently.) Fossil's
+described three times, each time differently.) Fossil's
 documentation is not only more concise, it gives a nice split of brief
 online help and full online documentation.
 
@@ -727,17 +749,15 @@ Fossil delivered a new release allowing a clean migration to
 [./hashpolicy.wiki|full backwards compatibility] to old SHA-1 based
 repositories.
 
-Here in mid-2019, that feature is now in every OS and package repository
-known to include Fossil so that the next release
-(Fossil 2.10) will begin using SHA-3 hashes even on repos currently
-limited to SHA-1 for compatibility with Fossil 1.<i>x</i>,
-effectively upgrading them to require Fossil 2.1 or newer. This
-not only solves the SHAttered problem, it should prevent a reoccurrence
-for the foreseeable future. With the current release (Fossil 2.9) only
-repositories created before the
-transition to Fossil 2 are still using SHA-1, and then only if the
-repository's maintainer chose not to switch them into SHA-3 mode some
-time over the past 2 years.
+By mid-2019, that feature arrived in every software package repository
+shipping Fossil, the last mover being Debian's stable package repo,
+which has a highly conservative policy on upgrading to new versions.
+With that hurdle run, we were able to change the default hash mode in
+Fossil 2.10 (released 2019-10-04) to require SHA-3 support both for new
+repositories and to create SHA-3 hashes in existing repos, effectively
+upgrading them if they were created with Fossil 1.<i>x</i>. This not
+only solves the SHAttered problem, it should prevent a reoccurrence of
+similar problems for the foreseeable future.
 
 Meanwhile, the Git community took until August 2018 to announce
 [https://git-scm.com/docs/hash-function-transition/2.18.0|their plan]
@@ -752,60 +772,6 @@ moved over to a stronger hash algorithm before someone figures out how
 to make use of the weaknesses in the old one.  Fossil's developers moved
 on this problem quickly and had a widely-deployed solution to it years
 ago.
-
-
-<h2 id="missing">3.0 Missing Features</h2>
-
-Although there is a large overlap in capability between Fossil and Git,
-there are many areas where one system has a feature that is simply
-missing in the other. We covered most of those above, but there
-are a few remaining feature differences we haven't gotten to yet.
-
-
-<h3 id="missing-in-git">3.1 Features found in Fossil but missing from Git</h3>
-
-  *  <b>The [/help?cmd=all|fossil all] command</b>
-
-   Fossil keeps track of all repositories and check-outs and allows
-   operations over all of them with a single command.  For example, in
-   Fossil is possible to request a pull of all repositories on a laptop
-   from their respective servers, prior to taking the laptop off network.
-   Or it is possible to do "fossil all changes" to see if there are any
-   uncommitted changes that were overlooked prior to the end of the workday.
-
-  *  <b>The [/help?cmd=undo|fossil undo] command</b>
-
-   Whenever Fossil is told to modify the local checkout in some
-   destructive way ([/help?cmd=rm|fossil rm], [/help?cmd=update|fossil
-   update], [/help?cmd=revert|fossil revert], etc.) Fossil remembers the
-   prior state and is able to return the local check-out directory to
-   its prior state with a simple "fossil undo" command. You
-   [#history|cannot undo a commit], since writes to the actual
-   repository — as opposed to the local check-out directory — are more
-   or less permanent, on purpose, but as long as the change is simply
-   staged locally, Fossil makes undo
-   [https://git-scm.com/book/en/v2/Git-Basics-Undoing-Things|easier than
-   in Git].
-
-
-<h3 id="missing-in-fossil">3.2 Features found in Git but missing from Fossil</h3>
-
-  *  <b>Rebase</b>
-
-   Because of its emphasis on recording history exactly as it happened,
-   rather than as we would have liked it to happen, 
-   [./rebaseharm.md|Fossil deliberately omits the "rebase" command].
-   For those rare
-   occasions where something like rebase is actually needed, the same
-   topology can be achieved using cherrypick merges.
-
-  *  <b>Push or pull a single branch</b>
-
-   The [/help?cmd=push|fossil push], [/help?cmd=pull|fossil pull], and
-   [/help?cmd=sync|fossil sync] commands do not provide the capability to
-   push or pull individual branches.  Pushing and pulling in Fossil is
-   all or nothing.  This is in keeping with Fossil's emphasis on maintaining
-   a complete record and on sharing everything between all developers.
 
 <hr/>
 
@@ -845,12 +811,6 @@ are a few remaining feature differences we haven't gotten to yet.
     <li><p>This means you can give up waiting for Fossil to be ported to
     the PDP-11, but we remain hopeful that someone may eventually port
     it to [https://en.wikipedia.org/wiki/Z/OS|z/OS].
-
-    <li><p>We try to keep use of Javascript to a minimum in the web UI,
-    and we always try to provide sensible fall-backs for those that run
-    their browsers with Javascript disabled. Some features of the web UI
-    simply won't run without Javascript, but the UI behavior does
-    degrade gracefully.
 
     <li><p>"Why is there all this Tcl in and around Fossil?" you may
     ask. It is because D. Richard Hipp is a long-time Tcl user and
