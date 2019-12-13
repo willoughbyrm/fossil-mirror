@@ -167,6 +167,24 @@ static void html_blockquote(struct Blob *ob, struct Blob *text, void *opaque){
   BLOB_APPEND_LITERAL(ob, "</blockquote>\n");
 }
 
+/*
+** For each byte of pIn which is an ASCII alphanumeric, its lowercase
+** form is appended to pOut. The intent is to generate an automated
+** HTML ID attribute from, e.g., header text, in particular an ID
+** which a human could easily recreate "in their head" while writing a
+** document, to facilitate the create of intra-document links.
+*/
+static void html_text_to_id(Blob const * pIn, Blob *pOut){
+  int i;
+  unsigned char const * z = (unsigned char const *)pIn->aData;
+  for( i = 0; i < pIn->nUsed; ++i, ++z ){
+    if(*z<128 && fossil_isalnum(*z)){
+      char const Z = (char)fossil_tolower(*z);
+      blob_append(pOut, &Z, 1);
+    }
+  }
+}
+
 static void html_header(
   struct Blob *ob,
   struct Blob *text,
@@ -174,16 +192,23 @@ static void html_header(
   void *opaque
 ){
   struct Blob *title = opaque;
+  Blob bId = empty_blob;
   /* The first header at the beginning of a text is considered as
    * a title and not output. */
   if( blob_size(ob)<=PROLOG_SIZE && title!=0 && blob_size(title)==0 ){
     BLOB_APPEND_BLOB(title, text);
     return;
   }
+  html_text_to_id(text, &bId);
   INTER_BLOCK(ob);
-  blob_appendf(ob, "<h%d>", level);
+  if(bId.nUsed>0){
+    blob_appendf(ob, "<h%d id=\"%b\">", level, &bId);
+  }else{
+    blob_appendf(ob, "<h%d>", level);
+  }
   BLOB_APPEND_BLOB(ob, text);
   blob_appendf(ob, "</h%d>", level);
+  blob_reset(&bId);
 }
 
 static void html_hrule(struct Blob *ob, void *opaque){
