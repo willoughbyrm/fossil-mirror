@@ -1,5 +1,5 @@
-C Markdown-to-HTML\snow\sadds\sautomatically-generated\sID\sattributes\sto\sthe\sheaders\sto\sfacilitate\screating\sintra-document\slinks\sand\shyperlinked\stables\sof\scontents.\sThe\sID\salgorithm\sis\ssimply\sto\slower-case\sall\sASCII\salphanumeric\scharacters\sin\sthe\sheader\stext.
-D 2019-12-13T13:06:32.935
+C Added\s"heading-"\sprefix\sto\sgenerated\sIDs\sto\shelp\savoid\saccidental\scollisions\swith\smanually-added\sanchors.
+D 2019-12-15T15:26:32.702
 F .dockerignore 29c5476ae4fb609219ea3f11d60c4b133a037b68
 F .editorconfig 132c5a213aa3ce13dcc9c19f8a7ea306e3640bec4ae693378116cee339c34a1a
 F .fossil-settings/binary-glob 34cc11b3b509fd5064afe327e70765799f314c9a
@@ -527,7 +527,7 @@ F src/makemake.tcl e6366ee7862a999785e33957c4caea204602603c0f5e5665b181c7e492b0e
 F src/manifest.c d105dbd2bd86aca38a3aaeda068e6c97a7ef0534c7e5977f2cc1deeaa8470830
 F src/markdown.c 0d5004795032d5dd01a99b4e03f2b740cbc5cb005d21baae99ecc8265abd881e
 F src/markdown.md 36b19ca92f330323e2edb7b2e80dd96d708753951da73b725b025a10cadf48b6
-F src/markdown_html.c 545bf0e5ab31b51d87126c23c2d4e1a8314be38da8e05abfbd5c5df07beaac21
+F src/markdown_html.c cc2f25e72bec633ad131a5d64a1d59003ccdd6966bb33263787171bf773d04fc
 F src/md5.c a18f2868a3b8932c4fbf8c2659931e14cdee1858
 F src/menu.js 8a3650ced67d6c31241eaae42efc5796fe7bcbbd581adf5a284ea1dbf2415e23
 F src/merge.c 6279e042ec7f95ef37b4a6b9895a88f7c98f4f3bbe56bd6418e28c507753f35c
@@ -930,10 +930,7 @@ F www/webui.wiki 5b434406349aa3c2553513ceab666633747c0a6de6432573a3bc0507c210b94
 F www/whyusefossil.wiki 730056ead695df82c7aa9dd099cf34b4bfbfd473
 F www/wikitheory.wiki d11fd8dfa727887d941fe998fd48030c60276b81c1d460e656ac5acb5e87af99
 F www/xkcd-git.gif 1f9bc44ed41cad3f5ac18f21e3463e3390b53b29
-P 5590fb9e0f64194d70eb1327e524753399e777e66e900c3b697f560eb021c1cb
-R 1c134f361c40637d511682002437df25
-T *branch * markdown-header-ids
-T *sym-markdown-header-ids *
-T -sym-trunk *
+P 88eb24a9a5fe10d9d33974cd82fddb23acaf74a1aacc46da52d0a6068e284ea6
+R 791dd358fabf88798c18bc32b225ea4c
 U stephan
-Z ad58e396317742cc236dc2b738e41655
+Z c293f0d70244cad8b22541dc60db0261
