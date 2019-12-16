@@ -194,7 +194,7 @@ static void html_header(
   struct Blob *title = opaque;
   Blob bId = empty_blob;
   /* The first header at the beginning of a text is considered as
-  ** a title and not output. */
+   * a title and not output. */
   if( blob_size(ob)<=PROLOG_SIZE && title!=0 && blob_size(title)==0 ){
     BLOB_APPEND_BLOB(title, text);
     return;
@@ -202,13 +202,7 @@ static void html_header(
   html_text_to_id(text, &bId);
   INTER_BLOCK(ob);
   if(bId.nUsed>0){
-    blob_appendf(ob, "<h%d id=\"heading-%b\">", level, &bId);
-    /* We add a prefix ("heading-") to avoid the case that the
-    ** generated IDs coincidentally collides with one the user added
-    ** manually via, e.g., <a id="..."></a>. The term "heading",
-    ** rather than "header", was chosen to avoid any semantic
-    ** ambiguity with HTML5 <header> tags.
-    */
+    blob_appendf(ob, "<h%d id=\"%b\">", level, &bId);
   }else{
     blob_appendf(ob, "<h%d>", level);
   }
